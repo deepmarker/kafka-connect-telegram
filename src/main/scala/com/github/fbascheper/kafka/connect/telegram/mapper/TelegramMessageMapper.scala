@@ -10,6 +10,7 @@ import org.apache.kafka.connect.sink.SinkRecord
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod
 import org.telegram.telegrambots.meta.api.methods.send.{SendMessage, SendPhoto, SendVideo}
 import org.telegram.telegrambots.meta.api.objects.Message
+import org.telegram.telegrambots.meta.api.objects.InputFile
 
 import scala.util.Try
 
@@ -214,11 +215,11 @@ class TelegramMessageMapper(chatId: Long) extends Logging {
 
     val attachment = photoMsg.getPhoto
     if (attachment.getContents == null) {
-      message.setPhoto(attachment.getName)
+      message.setPhoto(new InputFile(attachment.getName))
     } else {
       val contents = attachment.getContents.array()
       val inputStream = new ByteArrayInputStream(contents)
-      message.setPhoto(attachment.getName, inputStream)
+      message.setPhoto(new InputFile(inputStream, attachment.getName))
     }
 
     message.setReplyToMessageId(photoMsg.getReplyToMessageId)
@@ -247,11 +248,11 @@ class TelegramMessageMapper(chatId: Long) extends Logging {
 
     val attachment = videoMsg.getVideo
     if (attachment.getContents == null) {
-      message.setVideo(attachment.getName)
+      message.setVideo(new InputFile(attachment.getName))
     } else {
       val contents = attachment.getContents.array()
       val inputStream = new ByteArrayInputStream(contents)
-      message.setVideo(attachment.getName, inputStream)
+      message.setVideo(new InputFile(inputStream, attachment.getName))
     }
 
     message.setDuration(videoMsg.getDuration)

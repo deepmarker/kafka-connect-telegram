@@ -1,7 +1,6 @@
 package com.github.fbascheper.kafka.connect.telegram.bot;
 
 import org.slf4j.Logger;
-import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -87,20 +86,8 @@ public class KafkaConnectLongPollingBot extends TelegramLongPollingBot {
         return this.botToken;
     }
 
-    /**
-     * Prevent multiple calls to {@link ApiContextInitializer#init()}, by exploiting the guarantee that a class
-     * will not be initialized until it is used [JLS, 12.4.1].
-     */
-    private static class Initializer {
-        static {
-            ApiContextInitializer.init();
-        }
-
-        static final Object value = null;
-    }
-
     public static Object initBotsAPI() {
-        return Initializer.value;
+        return null;
     }
 
 }

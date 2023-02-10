@@ -8,6 +8,7 @@ import org.apache.kafka.clients.consumer.OffsetAndMetadata
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.connect.sink.{SinkRecord, SinkTask}
 import org.telegram.telegrambots.meta.generics.BotSession
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import scala.collection.JavaConverters._
 import scala.util.{Failure, Success}
@@ -29,7 +30,7 @@ class TelegramSinkTask extends SinkTask with Logging {
     import org.telegram.telegrambots.meta.TelegramBotsApi
 
     KafkaConnectLongPollingBot.initBotsAPI()
-    val botsApi = new TelegramBotsApi
+    val botsApi = new TelegramBotsApi(classOf[DefaultBotSession])
     val kafkaConnectBot = initTask(props)
 
     botSession = Some(botsApi.registerBot(kafkaConnectBot.pollingBot))
