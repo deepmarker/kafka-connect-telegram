@@ -149,6 +149,7 @@ class TelegramMessageMapper(chatId: Long) extends Logging {
       val text = sinkRecord.value.toString
       log.info("Using text to send telegram text-message with contents = {}", text)
       val message = new SendMessage()
+      message.enableMarkdownV2(true)
       message.setChatId(chatId)
       message.setText(text)
 
@@ -166,6 +167,7 @@ class TelegramMessageMapper(chatId: Long) extends Logging {
 
   private def sendMessage(txtMsg: TgTextMessage, chatId: Long): BotMessage[SendMessage, Message] = {
     val message = new SendMessage()
+    message.enableMarkdownV2(true)
 
     if (txtMsg.getChatId == null)
       message.setChatId(chatId)
